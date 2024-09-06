@@ -1,6 +1,10 @@
 package uz.location.spatial.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,6 +28,18 @@ public class SchoolServiceImpl implements SchoolService {
                 .stream()
                 .map(this::convertToDTO)
                 .toList();
+    }
+
+    @Override
+    public List<SchoolDto> getSchoolsWithinDistance(double longitude, double latitude, double distance) {
+//        GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+//        Point referencePoint = geometryFactory.createPoint(new Coordinate(longitude, latitude));
+
+        return schoolRepository.getSchoolsWithinDistance(longitude, latitude, distance)
+                .stream()
+                .map(this::convertToDTO)
+                .toList();
+
     }
 
     @Override
@@ -56,6 +72,7 @@ public class SchoolServiceImpl implements SchoolService {
                 .id(school.getId())
                 .name(school.getSchoolName())
                 .type(school.getSchoolType() != null ? school.getSchoolType().getTypeName() : null)
+                .location(school.getLocation() != null ? school.getLocation().toString() : null)
                 .language(school.getSchoolLanguages().toString())
                 .region(school.getLocationId() != null ? school.getLocationId().getRegion() : null)
                 .city(school.getLocationId() != null ? school.getLocationId().getCity() : null)

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.MultiPolygon;
 
 import java.io.Serializable;
 
@@ -15,6 +16,7 @@ public class SchoolDto implements Serializable {
     private Long id;
     private String name;
     private String type;
+    private String location;
     private String language;
     private String region;
     private String city;

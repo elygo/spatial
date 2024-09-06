@@ -34,6 +34,20 @@ public class SchoolControllerImpl implements SchoolController {
         return ResponseEntity.ok(schools).getBody();
     }
 
+    @Operation(summary = "Schools within radius in meters", description = "Fetch a list of schools within radius")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
+    })
+    @GetMapping("/within-distance")
+    public List<SchoolDto> getSchoolsWithinDistance(@RequestParam double longitude,
+                                                    @RequestParam double latitude,
+                                                    @RequestParam(defaultValue = "100") double distance) {
+
+        List<SchoolDto> schools = schoolService.getSchoolsWithinDistance(longitude, latitude, distance);
+        return ResponseEntity.ok(schools).getBody();
+    }
+
+
     @Override
     public SchoolDto readById(Long id) {
         return null;
